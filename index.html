@@ -7,11 +7,88 @@
   <link rel="preload" href="fonts/inter-semibold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/inter-medium.woff2" as="font" type="font/woff2" crossorigin>
 
-  <title>Модуль 4</title>
+  <title>Модуль 4. Подготовительный урок</title>
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="overlay active">
+    <section class="add-product modal">
+      <div class="add-product__conainer">
+        <header class="add-product__header">
+          <h2 class="add-product__title">Добавить товар</h2>
+          <button class="add-product__id" type="button">ID: 246016548</button>
+        </header>
 
+        <form
+          class="form"
+          id="add-product"
+          action="https://jsonplaceholder.typicode.com/posts"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <fieldset class="form__content">
+            <div class="form__item title">
+              <label class="form__label" for="title">Наименование</label>
+              <input class="form__input" type="text" name="title" id="title">
+            </div>
+
+            <div class="form__item description">
+              <label class="form__label" for="description">Описание</label>
+              <textarea class="form__input description__input" name="description" id="description"></textarea>
+            </div>
+
+            <div class="form__item category">
+              <label class="form__label" for="category">Категория</label>
+              <input class="form__input" type="text" name="category" id="category">
+            </div>
+
+            <div class="form__item units">
+              <label class="form__label" for="units">Единицы измерения</label>
+              <input class="form__input" type="text" name="units" id="units">
+            </div>
+
+            <div class="form__item count">
+              <label class="form__label" for="count">Количество</label>
+              <input class="form__input" type="number" name="count" id="count">
+            </div>
+
+            <div class="form__item discount">
+              <label class="form__label" for="discount">Дисконт</label>
+              <input class="discount__checkbox-input" type="checkbox">
+              <div class="discount__number">
+                <input class="form__input discount__number-input" type="number" name="discount" id="discount" disabled>
+              </div>
+            </div>
+
+            <div class="form__item price">
+              <label class="form__label" for="price">Цена</label>
+              <input class="form__input" type="number" name="price" id="price">
+            </div>
+
+            <div class="form__item add-picture">
+              <input class="add-picture__input" type="file" name="add-picture" id="add-picture">
+              <label class="add-picture__label" for="add-picture">Добавить изображение</label>
+            </div>
+          </fieldset>
+        </form>
+
+        <footer class="add-product__footer">
+          <span class="add-product__footer-text">
+            Итоговая стоимость: <span class="add-product__footer-price">$ 900.00</span>
+          </span>
+
+          <button class="add-product__footer-button button" form="add-product" type="submit">Добавить товар</button>
+        </footer>
+      </div>
+
+      <button class="modal__close-button" type="button" aria-label="Закрыть модальное окно">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2L22 22" stroke-width="3" stroke-linecap="round" />
+          <path d="M2 22L22 2" stroke-width="3" stroke-linecap="round" />
+        </svg>
+      </button>
+    </section>
+  </div>
 </body>
 </html>
