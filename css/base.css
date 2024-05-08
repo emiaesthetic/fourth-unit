@@ -78,3 +78,9 @@ fieldset {
   padding: 0 var(--container-padding-x);
   margin: 0 auto;
 }
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
