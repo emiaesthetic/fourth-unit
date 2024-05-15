@@ -8,10 +8,7 @@
         `Введите число от 1 до ${totalPoints}: `;
     const userEntry = prompt(`Ваш ход. ${message}`, 1);
 
-    if (userEntry === null) {
-      alert('Нельзя отменить игру! Не будь слабаком, введи число...');
-      return getPlayerNumber(totalPoints);
-    }
+    if (userEntry === null) return null;
 
     if (!Number.isFinite(+userEntry)) {
       alert(`${userEntry} не является числом! ${message}`);
@@ -75,12 +72,13 @@
       const choice = prompt(`Выбирай: ${message}`);
 
       if (choice === null) {
-        alert(`Нельзя отменить игру.`);
-        return getPlayerFigure(figures);
+        return confirm('Вы хотите выйти из игры?') ?
+          'closeGame' :
+          getFirstGuesses();
       }
 
-      const compareChoice = figures.find((item) =>
-        choice && item.startsWith(choice.toLowerCase()),
+      const compareChoice = figures.find(
+          (item) => choice && item.startsWith(choice.toLowerCase()),
       );
       return compareChoice ?? getPlayerFigure(figures);
     };
@@ -94,6 +92,9 @@
 
     const botChoice = getBotFigure(figures);
     const playerChoice = getPlayerFigure(figures);
+
+    if (playerChoice === 'closeGame') return;
+
     console.log(`Игрок: ${playerChoice}\nБот: ${botChoice}`);
 
     if (botChoice === playerChoice) {
@@ -117,7 +118,7 @@
     return function startGame(guesses) {
       guesses ??= getFirstGuesses();
 
-      const continueGame = () => {
+      const tryAgain = () => {
         const allMessages = [
           'Сыграем еще разок?',
           'Еще раз? Этот раз точно последний!',
@@ -135,13 +136,18 @@
         }
       };
 
+      const closeOrContinueGame = (guesses) => {
+        const answer = confirm('Вы хотите выйти из игры?');
+        if (!answer) return startGame(guesses);
+      };
+
       const endGameCheck = (guesses) => {
         if (gameScore.player <= 0) {
           alert('У Вас больше нет шаров. Вы самое слабое звено, прощайте...');
-          continueGame();
+          tryAgain();
         } else if (gameScore.bot <= 0) {
           alert('Игра окончена. Поздравляем с победой!');
-          continueGame();
+          tryAgain();
         } else startGame(guesses);
       };
 
@@ -149,6 +155,8 @@
         case 'bot': {
           const playerNumber = getPlayerNumber(gameScore.player);
           const botPresume = guessEvenOrOddNumber('bot');
+
+          if (playerNumber === null) return closeOrContinueGame(guesses);
 
           if (playerNumber % 2 === botPresume) {
             gameScore.bot = incrementScore(gameScore.bot, playerNumber);
@@ -180,6 +188,8 @@
         case 'player': {
           const botNumber = getRandomIntNumber(1, gameScore.bot);
           const playerPresume = guessEvenOrOddNumber('player');
+
+          if (playerPresume === null) return closeOrContinueGame(guesses);
 
           if (botNumber % 2 === playerPresume) {
             gameScore.player = incrementScore(gameScore.player, botNumber);
